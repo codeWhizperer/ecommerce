@@ -82,15 +82,15 @@ function Shopping() {
             />
             <button
               onClick={prevImage}
-              className="absolute hidden md:block bg-white left-2 top-1/2 transform -translate-y-1/2 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full"
+              className="absolute hidden md:block bg-white left-2 top-1/2 transform -translate-y-1/2 text-white bg-black/50 cursor-pointer hover:text-orange/70 p-2 rounded-full"
             >
-              <LeftArrow />
+              <LeftArrow className="text-black hover:text-orange-500" />
             </button>
             <button
               onClick={nextImage}
-              className="absolute hidden md:block right-2 bg-white top-1/2 transform -translate-y-1/2 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full"
+              className="absolute hidden md:block right-2 bg-white top-1/2 transform -translate-y-1/2 text-white bg-black/50 cursor-pointer hover:text-orange/70 p-2 rounded-full"
             >
-              <RightArrow />
+              <RightArrow className="text-black hover:text-orange-500" />
             </button>
           </div>
         </div>
