@@ -11,48 +11,6 @@ interface CartItem {
     image: string;
   }
 
-// function Cart() {
-//     // const {count} = useCart()
-
-//     const total:number = 125 * count;
-//   return (
-//     <div className="bg-[#FFFFFF] w-[360px] h-[256px] shadow-lg absolute rounded-lg top-[3rem] left-[-9rem]">
-//       <div className="flex flex-col h-full">
-//         <p className="border-b p-4 text-[#1D2026] font-bold">Cart</p>
-//         <div className="flex flex-1 items-center justify-center">
-//             {count === 0 ? <p className="text-center text-[#69707D]">Your cart is empty</p> : <Item count={count} total={total}/>}
-          
-//         </div>
-//       </div>
-//     </div>
-//   );
-  
-
-// }
-
-// export default Cart
-
-
-
-
-// const  Item = ({count, total}: {count:number, total:number}) => {
-//   return (
-//     <div className=''>
-//     <div className='flex gap-2 mb-8'>
-//         <div className='w-[52px] h-[52px]'>
-//             <img src="/shoe.png" alt="shoe picture" />
-//         </div>
-
-//         <div className='text-[#69707D]'>
-//             <p>Fall Limited Edition Stickers</p>
-//             <p><span> $125.00 * {count} = </span> <span className='text-black font-bold'> ${total}.00</span> </p> 
-//         </div>
-//     </div>
-//     <button className='bg-[#FF7E1B] rounded-lg w-full p-2 text-black font-bold cursor-pointer'>Checkout</button>
-
-//     </div>
-//   )
-// }
 
 function Cart() {
     const { cartItems, totalItems, totalPrice, clearCart, showCart, toggleShowCart } = useCart();
@@ -60,9 +18,9 @@ function Cart() {
     if (!showCart) return null;
   
     return (
-      <div className="bg-[#FFFFFF] w-[360px] h-[256px] shadow-lg absolute rounded-lg top-[3rem] left-[-9rem] z-50">
+      <div className="bg-[#FFFFFF] w-[360px] h-[256px] shadow-lg absolute rounded-lg right-[-4rem] top-[5rem] lg:top-[3rem] lg:left-[-9rem] z-50">
         <div className="flex flex-col h-full">
-          <p className="border-b p-4 text-[#1D2026] font-bold">Cart</p>
+          <p className="border-b p-4 opacity-30 text-[#1D2026] font-bold">Cart</p>
           <div className="flex flex-1 items-center justify-center">
             {totalItems === 0 ? (
               <p className="text-center text-[#69707D]">Your cart is empty</p>

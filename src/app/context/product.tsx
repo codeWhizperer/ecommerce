@@ -82,6 +82,11 @@ interface CartContextType {
   toggleShowCart: () => void;
   totalItems: number;
   totalPrice: number;
+  quantity:number;
+  increment: () => void;
+  decrement: () => void;
+  setQuantity: (quantity:number) => void
+
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -89,20 +94,26 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: CartProviderProps) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [showCart, setShowCart] = useState(false);
+    const [quantity, setQuantity] = useState(0);
+  
+    const increment = () => setQuantity(prev => prev + 1);
+    const decrement = () => {
+      if (quantity > 0) setQuantity(prev => prev - 1);
+    };
 
   const toggleShowCart = () => setShowCart(!showCart);
 
-  const addToCart = (item: Omit<CartItem, 'quantity'>) => {
+  const addToCart = (item: Omit<CartItem, 'quantity'>, quantity: number = 1) => {
     setCartItems(prev => {
       const existingItem = prev.find(cartItem => cartItem.id === item.id);
       if (existingItem) {
         return prev.map(cartItem =>
           cartItem.id === item.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            ? { ...cartItem, quantity: cartItem.quantity + quantity }
             : cartItem
         );
       }
-      return [...prev, { ...item, quantity: 1 }];
+      return [...prev, { ...item, quantity }];
     });
   };
 
@@ -125,14 +136,19 @@ export const CartProvider = ({ children }: CartProviderProps) => {
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
+
   return (
     <CartContext.Provider 
       value={{ 
+        quantity,
+        increment,
+        decrement,
         cartItems, 
         addToCart, 
         removeFromCart, 
         clearCart, 
         toggleShowCart, 
+        setQuantity,
         showCart, 
         totalItems,
         totalPrice

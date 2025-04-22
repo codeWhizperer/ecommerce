@@ -1,159 +1,112 @@
-// "use client";
-// import React, { useState } from "react";
-// import { useCart } from "../context/product";
-
-// function Shopping() {
-//   // const { count, increment, decrement } = useCart();
-//   return (
-//     <section className="my-12">
-//       <div className="md:grid xl:grid-cols-2 gap-24">
-//         <div>
-//           <div>
-//             <img src="/shoe.png" alt="shoe image" />
-//           </div>
-//           <div className="flex gap-6 mt-8">
-//             <div className="rounded-lg">
-//               <img src="/shoe.png" alt="shoe image" />
-//             </div>
-//             <div>
-//               <img src="/shoe.png" alt="shoe image" />
-//             </div>
-//             <div>
-//               <img src="/shoe.png" alt="shoe image" />
-//             </div>
-//             <div>
-//               <img src="/shoe.png" alt="shoe image" />
-//             </div>
-//           </div>
-//         </div>
-//         <div className="place-content-center">
-//           <div>
-//             <h2 className="text-[#69707D] my-4">SNEAKER COMPANY</h2>
-
-//             <p className="text-3xl text-[#1D2026] font-bold my-4">
-//               Fall Limited Edition Sneakers
-//             </p>
-
-//             <p className="text-[#69707D] my-4">
-//               These low-profile sneakers are your perfect casual wear companion.
-//               Featuring a durable rubber outer sole, they’ll withstand
-//               everything the weather can offer.
-//             </p>
-//             <div className="flex items-center space-x-4 my-4">
-//               <div className="text-[#1D2026] font-bold text-2xl">$125.00</div>
-//               <div className="text-white bg-black font-bold px-2 rounded-lg">
-//                 50%{" "}
-//               </div>
-//             </div>
-//             <div className="line-through text-[#69707D]">$250</div>
-//           </div>
-
-//           <div className="flex gap-4 my-6">
-//             <div className="bg-[#F6F8FD] w-full p-4 flex items-center justify-between  rounded-lg">
-//               <button
-//                 onClick={decrement}
-//                 className="text-[#FF7E1B] text-2xl font-bold cursor-pointer"
-//               >
-//                 -
-//               </button>{" "}
-//               <span className="text-black text-xl">{count}</span>{" "}
-//               <button
-//                 onClick={increment}
-//                 className="text-[#FF7E1B] text-2xl font-bold cursor-pointer"
-//               >
-//                 +
-//               </button>
-//             </div>
-
-//             <div className="bg-[#FF7E1B] w-full p-4 flex justify-center rounded-lg cursor-pointer">
-//               <button className="flex gap-4 text-[#1D2026] cursor-pointer font-bold">
-//                 <span>
-//                   <img src="/cart.svg" />
-//                 </span>{" "}
-//                 Add to cart
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-// export default Shopping;
-
-
 "use client";
 import React, { useState } from "react";
 import { useCart } from "../context/product";
+import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
+import { RightArrow, LeftArrow } from "../ui/icon";
 
 function Shopping() {
-  const { addToCart } = useCart();
-  const [quantity, setQuantity] = useState(0);
+  const { addToCart, quantity, increment, decrement, setQuantity } = useCart();
 
-  const increment = () => setQuantity(prev => prev + 1);
-  const decrement = () => {
-    if (quantity > 0) setQuantity(prev => prev - 1);
+  const [showModal, setShowModal] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const productImages = ["/shoe.png", "/shoe.png", "/shoe.png", "/shoe.png"];
+
+  const toggleItem = (index:any) => {
+    if (typeof index === "number") setCurrentIndex(index);
+    setShowModal(!showModal);
+  };
+
+  const nextImage = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % productImages.length);
+  };
+
+  const prevImage = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? productImages.length - 1 : prevIndex - 1
+    );
   };
 
   const product = {
     id: 1,
     name: "Fall Limited Edition Sneakers",
-    price: 125.00,
+    price: 125.0,
     image: "/shoe.png",
-    discount: 0.5, // 50% discount
-    originalPrice: 250.00
+    discount: 0.5,
+    originalPrice: 250.0,
   };
 
   const handleAddToCart = () => {
     if (quantity > 0) {
       addToCart({
         ...product,
-        quantity: quantity
+        quantity: quantity,
       });
-      setQuantity(0); // Reset quantity after adding to cart
+      setQuantity(0);
     }
   };
 
   return (
-    <section className="my-12">
+    <section className="lg:my-12 p-0 md:p-4">
       <div className="md:grid xl:grid-cols-2 gap-24">
         <div>
-          <div>
-            <img 
-              src="/shoe.png" 
-              alt="shoe image" 
+          <div className="hidden lg:block">
+            <img
+              src={product.image}
+              alt="shoe image"
               className="w-full rounded-lg"
             />
+            <div className="flex gap-6 cursor-pointer mt-8">
+              {productImages.map((img, index) => (
+                <div
+                  key={index}
+                  onClick={() => toggleItem(index)}
+                  className="rounded-lg cursor-pointer hover:opacity-70"
+                >
+                  <img
+                    src={img}
+                    alt={`shoe thumbnail ${index}`}
+                    className="w-20 h-20 rounded-lg object-cover"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="flex gap-6 mt-8">
-            {[1, 2, 3, 4].map((item) => (
-              <div key={item} className="rounded-lg cursor-pointer hover:opacity-70">
-                <img 
-                  src="/shoe.png" 
-                  alt="shoe thumbnail" 
-                  className="w-20 h-20 rounded-lg object-cover"
-                />
-              </div>
-            ))}
+
+          {/* Carousel for tablet/mobile */}
+          <div className="lg:hidden relative">
+            <img
+              src={productImages[currentIndex]}
+              alt="Product Carousel"
+              className="w-full h-72 object-cover  rounded-none md:rounded-lg lg:rounded-lg "
+            />
+            <button
+              onClick={prevImage}
+              className="absolute hidden md:block left-2 top-1/2 transform -translate-y-1/2 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full"
+            >
+              <LeftArrow />
+            </button>
+            <button
+              onClick={nextImage}
+              className="absolute hidden md:block right-2 top-1/2 transform -translate-y-1/2 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full"
+            >
+              <RightArrow />
+            </button>
           </div>
         </div>
-        <div className="place-content-center mt-8 md:mt-0">
+
+        <div className="place-content-center mt-8 md:mt-0 p-4 md:p-0 lg:p-0">
           <div>
-            <h2 className="text-[#FF7E1B] font-bold text-sm my-4">
+            <h2 className=" font-bold text-sm my-4">
               SNEAKER COMPANY
             </h2>
-
             <h1 className="text-3xl text-[#1D2026] font-bold my-4">
               {product.name}
             </h1>
-
             <p className="text-[#69707D] my-4">
-              These low-profile sneakers are your perfect casual wear companion.
-              Featuring a durable rubber outer sole, they'll withstand
-              everything the weather can offer.
+              These low-profile sneakers are your perfect casual wear companion...
             </p>
-            
+
             <div className="flex items-center space-x-4 my-4">
               <div className="text-[#1D2026] font-bold text-2xl">
                 ${product.price.toFixed(2)}
@@ -173,7 +126,9 @@ function Shopping() {
                 onClick={decrement}
                 disabled={quantity === 0}
                 className={`text-2xl font-bold cursor-pointer ${
-                  quantity === 0 ? "text-[#B6BCC8]" : "text-[#FF7E1B] hover:text-[#FFAB6A]"
+                  quantity === 0
+                    ? "text-[#B6BCC8]"
+                    : "text-[#FF7E1B] hover:text-[#FFAB6A]"
                 }`}
               >
                 -
@@ -190,7 +145,7 @@ function Shopping() {
             <button
               onClick={handleAddToCart}
               disabled={quantity === 0}
-              className={`flex items-center justify-center gap-4 w-full  rounded-lg font-bold ${
+              className={`flex items-center justify-center p-2 gap-4 w-full rounded-lg font-bold ${
                 quantity === 0
                   ? "bg-[#B6BCC8] cursor-not-allowed"
                   : "bg-[#FF7E1B] hover:bg-[#FFAB6A] cursor-pointer"
@@ -202,6 +157,33 @@ function Shopping() {
           </div>
         </div>
       </div>
+
+      {showModal && (
+        <Dialog open={showModal} onOpenChange={() => setShowModal(false)}>
+          <DialogContent>
+            <DialogTitle srOnly>Product Image</DialogTitle>
+            <div className="w-full relative">
+              <img
+                src={productImages[currentIndex]}
+                alt="Product"
+                className="w-full h-[16rem] rounded-lg object-cover"
+              />
+              <button
+                onClick={prevImage}
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 cursor-pointer hover:text-orange-500 px-2 py-1 rounded-full"
+              >
+                <LeftArrow />
+              </button>
+              <button
+                onClick={nextImage}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer hover:text-orange-500 px-2 py-1 rounded-full"
+              >
+                <RightArrow />
+              </button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </section>
   );
 }
