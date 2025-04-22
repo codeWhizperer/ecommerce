@@ -6,8 +6,7 @@ import { useCart } from "../context/product";
 import { CloseIcon, Hamburger } from "../ui/icon";
 
 function Header() {
-  const { showCart, toggleShowCart, totalItems, quantity, cartItems } =
-    useCart();
+  const { showCart, toggleShowCart, totalItems } = useCart();
 
   const [nav, setOpenNav] = useState(false);
   const toggleNav = () => {
@@ -19,7 +18,6 @@ function Header() {
         <div onClick={toggleNav} className="lg:hidden relative">
           <Hamburger />
           {nav && (
-            // <div className="absolute w-[15rem] top-0 left-0 p-4 h-screen flex  bg-white z-1000">
             <div
               className={`fixed top-0 left-0 h-screen w-[15rem] bg-white z-[1000] p-4 transform transition-transform duration-300 ease-in-out ${
                 nav ? "translate-x-0" : "-translate-x-full"

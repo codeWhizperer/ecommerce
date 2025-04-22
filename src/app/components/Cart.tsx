@@ -1,6 +1,3 @@
-// import React from 'react'
-// import { useCart } from '../context/product';
-
 import { useCart } from "../context/product";
 
 interface CartItem {
@@ -13,7 +10,7 @@ interface CartItem {
 
 
 function Cart() {
-    const { cartItems, totalItems, totalPrice, clearCart, showCart, toggleShowCart } = useCart();
+    const { cartItems, totalItems, totalPrice, clearCart, showCart } = useCart();
   
     if (!showCart) return null;
   
