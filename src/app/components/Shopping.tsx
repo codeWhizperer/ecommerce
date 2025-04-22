@@ -10,7 +10,7 @@ function Shopping() {
   const [showModal, setShowModal] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const productImages = ["/shoe.png", "/shoe.png", "/shoe.png", "/shoe.png"];
+  const productImages = ["/shoe.png", "/shoe2.jpg", "/shoe3.jpg", "/shoe4.jpg"];
 
   const toggleItem = (index:any) => {
     if (typeof index === "number") setCurrentIndex(index);
@@ -82,13 +82,13 @@ function Shopping() {
             />
             <button
               onClick={prevImage}
-              className="absolute hidden md:block left-2 top-1/2 transform -translate-y-1/2 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full"
+              className="absolute hidden md:block bg-white left-2 top-1/2 transform -translate-y-1/2 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full"
             >
               <LeftArrow />
             </button>
             <button
               onClick={nextImage}
-              className="absolute hidden md:block right-2 top-1/2 transform -translate-y-1/2 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full"
+              className="absolute hidden md:block right-2 bg-white top-1/2 transform -translate-y-1/2 text-white bg-black/50 hover:bg-black/70 p-2 rounded-full"
             >
               <RightArrow />
             </button>
@@ -97,14 +97,14 @@ function Shopping() {
 
         <div className="place-content-center mt-8 md:mt-0 p-4 md:p-0 lg:p-0">
           <div>
-            <h2 className=" font-bold text-sm my-4">
+            <h2 className=" text-black opacity-40 font-bold text-sm my-4">
               SNEAKER COMPANY
             </h2>
             <h1 className="text-3xl text-[#1D2026] font-bold my-4">
               {product.name}
             </h1>
             <p className="text-[#69707D] my-4">
-              These low-profile sneakers are your perfect casual wear companion...
+            These low-profile sneakers are your perfect casual wear companion. Featuring a durable rubber outer sole, they’ll withstand everything the weather can offer.
             </p>
 
             <div className="flex items-center space-x-4 my-4">
