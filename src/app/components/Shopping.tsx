@@ -111,7 +111,7 @@ function Shopping() {
               <div className="text-[#1D2026] font-bold text-2xl">
                 ${product.price.toFixed(2)}
               </div>
-              <div className="text-white bg-[#FF7E1B] font-bold px-2 rounded-lg">
+              <div className="text-white bg-[black] font-bold px-2 rounded-lg">
                 {product.discount * 100}%
               </div>
             </div>
